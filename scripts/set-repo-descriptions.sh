@@ -132,12 +132,12 @@ if [[ "$MODE" == "batch" ]]; then
 
         if [[ -z "$desc" ]]; then
             dim "Skipped ${repo} (no description provided)"
-            (( SKIPPED++ )) || true
+            SKIPPED=$(( SKIPPED + 1 ))
             continue
         fi
 
         apply_description "$repo" "$desc"
-        (( COUNT++ )) || true
+        COUNT=$(( COUNT + 1 ))
 
     done < "$INPUT_FILE"
 
@@ -158,14 +158,18 @@ echo ""
 $DRY_RUN && warn "DRY-RUN mode — no changes will be made"
 echo ""
 
-# Collect only repos with missing descriptions
-mapfile -t MISSING < <(fetch_repos | while IFS=$'\t' read -r name desc; do
+# Collect repos missing descriptions into a temp file
+# (avoids mapfile / process-substitution issues on macOS bash 3.2)
+TMPFILE="$(mktemp /tmp/repos_missing_desc.XXXXXX)"
+trap 'rm -f "$TMPFILE"' EXIT
+
+fetch_repos | while IFS=$'\t' read -r name desc; do
     [[ -z "$desc" ]] && echo "$name"
-done)
+done > "$TMPFILE"
 
-TOTAL="${#MISSING[@]}"
+TOTAL="$(wc -l < "$TMPFILE" | tr -d ' ')"
 
-if [[ $TOTAL -eq 0 ]]; then
+if [[ "$TOTAL" -eq 0 ]]; then
     success "All repositories already have descriptions — nothing to do!"
     exit 0
 fi
@@ -177,17 +181,19 @@ echo ""
 COUNT=0
 IDX=0
 
-for repo in "${MISSING[@]}"; do
-    (( IDX++ )) || true
+# Read repo names from the temp file; use /dev/tty for interactive prompts
+while IFS= read -r repo; do
+    IDX=$(( IDX + 1 ))
     printf "${CYN}[%d/%d]${RST} ${BLU}%s${RST}\n" "$IDX" "$TOTAL" "$repo"
     printf "      Description (Enter to skip): "
 
-    # Read with a visible prompt; handle non-interactive gracefully
-    if read -r desc 2>/dev/null; then
-        desc="${desc%"${desc##*[![:space:]]}"}"   # trim trailing whitespace
+    # Read from the terminal directly (stdin is the file, not the keyboard)
+    if read -r desc < /dev/tty 2>/dev/null; then
+        # Trim trailing whitespace (bash 3.2 compatible)
+        desc="$(echo "$desc" | sed 's/[[:space:]]*$//')"
         if [[ -n "$desc" ]]; then
             apply_description "$repo" "$desc"
-            (( COUNT++ )) || true
+            COUNT=$(( COUNT + 1 ))
         else
             dim "Skipped"
         fi
@@ -195,7 +201,7 @@ for repo in "${MISSING[@]}"; do
         dim "Skipped (non-interactive)"
     fi
     echo ""
-done
+done < "$TMPFILE"
 
 echo ""
 success "Done — ${COUNT} of ${TOTAL} repositories updated."
