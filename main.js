@@ -162,7 +162,7 @@ const API_BASE    = 'https://api.github.com';
       <div class="repo-card__name">
         ${repo.name}${forkBadge}
       </div>
-      <p class="repo-card__desc">${repo.description || '<em>No description</em>'}</p>
+      <p class="repo-card__desc${repo.description ? '' : ' repo-card__desc--empty'}">${repo.description || 'No description — add one on GitHub.'}</p>
       <div class="repo-card__meta">
         ${langDot}${stars}${forks}
       </div>

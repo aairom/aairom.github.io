@@ -891,6 +891,12 @@ ul {
   overflow: hidden;
 }
 
+.repo-card__desc--empty {
+  color: var(--clr-border);   /* very dim — clearly a placeholder */
+  font-style: italic;
+  font-size: var(--text-xs);
+}
+
 .repo-card__meta {
   display: flex;
   align-items: center;
