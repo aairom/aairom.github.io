@@ -134,33 +134,90 @@ chmod +x scripts/start.sh
 
 ## Phase 5 — Deploy to GitHub Pages
 
-### Step 5.1 — Push your code
+> **TL;DR — use the script.** `scripts/init-repo.sh` automates every step below
+> (git init → create repo → push → enable Pages → wait for build).
+
+### Option A — One-command automated setup (recommended)
+
+#### Prerequisites
+
+| Tool | Install |
+|---|---|
+| `git` | [git-scm.com](https://git-scm.com) |
+| `gh` (GitHub CLI) | [cli.github.com](https://cli.github.com) |
+| Authenticated `gh` session | Run `gh auth login` once |
+
+#### Run the script
 
 ```bash
-# Stage all files
-git add .
+# Make executable (first time only)
+chmod +x scripts/init-repo.sh
 
-# Create your first commit
-git commit -m "Initial personal website launch 🚀"
-
-# Push to GitHub
-git push origin main
+# Run from the project root
+./scripts/init-repo.sh
 ```
 
-### Step 5.2 — Enable GitHub Pages (first time only)
+The script will:
+1. ✅ Verify `git`, `gh`, and authentication
+2. ✅ Run `git init` and set branch to `main` (skips if already done)
+3. ✅ Configure `git user.name` / `git user.email` from your GitHub profile
+4. ✅ Exclude `.bob/` from the commit
+5. ✅ Stage and commit all files
+6. ✅ Create the public repo `<username>.github.io` on GitHub
+7. ✅ Push to `origin/main`
+8. ✅ Enable GitHub Pages (branch: main, path: /)
+9. ✅ Wait for the build and confirm with an HTTP 200 check
+10. ✅ Print the live URL
 
-1. Go to your repository on GitHub
-2. Click the **Settings** tab (top menu)
-3. In the left sidebar, click **Pages**
-4. Under **Source**, select:
-   - Branch: **main**
-   - Folder: **/ (root)**
-5. Click **Save**
+**Environment variable overrides** (all optional):
 
-GitHub will show a banner:
-> ✅ Your site is live at `https://yourusername.github.io`
+```bash
+GITHUB_USER=myuser  REPO_NAME=myuser.github.io  ./scripts/init-repo.sh
+```
 
-### Step 5.3 — Wait and verify
+---
+
+### Option B — Manual step-by-step
+
+#### Step 5.1 — Install and authenticate GitHub CLI
+
+```bash
+# macOS (Homebrew)
+brew install gh
+
+# Authenticate
+gh auth login
+# → choose: GitHub.com → HTTPS → Login with a web browser
+```
+
+#### Step 5.2 — Initialise git and push
+
+```bash
+# Initialise git in the project root
+git init
+git branch -m main
+
+# Stage and commit all files
+git add .
+git commit -m "🚀 Initial personal website"
+
+# Create the public GitHub repo and push in one command
+gh repo create yourusername.github.io \
+  --public \
+  --description "Personal website on GitHub Pages" \
+  --source=. \
+  --remote=origin \
+  --push
+```
+
+#### Step 5.3 — Enable GitHub Pages
+
+GitHub Pages is auto-enabled for `<username>.github.io` repos. If not:
+
+1. Go to your repository → **Settings** → **Pages**
+2. Source: branch **main**, folder **/ (root)** → **Save**
+
+#### Step 5.4 — Wait and verify
 
 GitHub Pages takes **30–120 seconds** to build and deploy. Then:
 
