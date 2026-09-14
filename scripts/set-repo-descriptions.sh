@@ -72,11 +72,19 @@ gh auth status &>/dev/null || { echo "❌  gh not authenticated. Run: gh auth lo
 GITHUB_USER="$(gh api user --jq '.login')"
 
 # ── Fetch all repos with their current descriptions ──────────────────────────
+# Manual page-by-page loop — avoids --paginate deadlock on macOS bash 3.2
 fetch_repos() {
-    # Returns JSON array with only name + description fields
-    gh api "/users/${GITHUB_USER}/repos?per_page=100&sort=updated" \
-        --paginate \
-        --jq '.[] | [.name, (.description // "")] | @tsv' 2>/dev/null
+    local page=1
+    local out count
+    while true; do
+        out="$(gh api "/users/${GITHUB_USER}/repos?per_page=100&sort=updated&page=${page}" \
+            --jq '.[] | [.name, (.description // "")] | @tsv' 2>/dev/null)"
+        [ -z "$out" ] && break
+        printf '%s\n' "$out"
+        count="$(printf '%s\n' "$out" | wc -l | tr -d ' ')"
+        [ "$count" -lt 100 ] && break
+        page=$(( page + 1 ))
+    done
 }
 
 # ── Apply a single description via the API ────────────────────────────────────
