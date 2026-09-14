@@ -1,8 +1,11 @@
 # 🌐 Personal Website — GitHub Pages
 
+> **🔗 [https://aairom.github.io](https://aairom.github.io) · [📂 Repositories](https://aairom.github.io/#repositories)**
+>
 > A clean, responsive personal website hosted on **GitHub Pages** — no build tools, no frameworks, no dependencies. Pure HTML, CSS, and vanilla JavaScript.
 
-[![Live Site](https://img.shields.io/badge/Live%20Site-username.github.io-blue?style=flat-square)](https://username.github.io)
+[![Live Site](https://img.shields.io/badge/Live%20Site-aairom.github.io-blue?style=flat-square)](https://aairom.github.io)
+[![Repositories](https://img.shields.io/badge/Repositories-aairom.github.io%2F%23repositories-58a6ff?style=flat-square)](https://aairom.github.io/#repositories)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
 ---
