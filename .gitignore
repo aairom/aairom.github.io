@@ -1,0 +1,47 @@
+# Environment files — never commit secrets
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Dependency folders
+node_modules/
+
+# Playwright
+.playwright-mcp/
+
+# Bob
+.bob/mcp.json
+AGENTS.md
+
+# Folders starting with underscore (private/local sources)
+_*/
+
+# Build artifacts
+dist/
+build/
+
+# Compressed files
+*.zip
+*.tar.gz
+*.tgz
+*.onnx
+*.onnx.data
+*.so
+*.dylib
+
+# Output and input content (sync folders, not content)
+output/*
+!output/.gitkeep
+input/*
+!input/.gitkeep
+.bob/

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Alain Airom (aairom) — IT guy, IBMer, sharing hands-on experiences. Personal website and GitHub repositories." />
+  <meta name="author" content="Alain Airom" />
+
+  <!-- Open Graph / Social preview -->
+  <meta property="og:title" content="Alain Airom | Personal Website" />
+  <meta property="og:description" content="IT guy, IBMer — sharing hands-on experiences and technical subjects." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aairom.github.io" />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/10561272?v=4" />
+
+  <title>Alain Airom (aairom) | Personal Website</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ================================================================
+       NAVIGATION
+  ================================================================ -->
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="nav__logo" href="#top">aairom</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#repositories">Repositories</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ================================================================
+       HERO SECTION
+  ================================================================ -->
+  <section class="hero" id="hero" aria-labelledby="heroHeading">
+    <div class="container hero__inner">
+      <p class="hero__eyebrow">Hi, I'm</p>
+      <h1 class="hero__name" id="heroHeading">Alain Airom</h1>
+      <p class="hero__tagline">IT Guy · IBMer · Open-Source Enthusiast</p>
+      <p class="hero__sub">
+        Sharing my hands-on experiences and technical subjects of interest — IBM or not.
+        A bit <em>"touche à tout"</em>!
+      </p>
+      <div class="hero__actions">
+        <a href="#repositories" class="btn btn--primary">View my repositories</a>
+        <a href="https://github.com/aairom" class="btn btn--outline" target="_blank" rel="noopener">GitHub Profile</a>
+      </div>
+    </div>
+    <div class="hero__blob" aria-hidden="true"></div>
+  </section>
+
+  <!-- ================================================================
+       ABOUT SECTION
+  ================================================================ -->
+  <section class="section about" id="about" aria-labelledby="aboutHeading">
+    <div class="container about__inner">
+      <div class="about__text">
+        <h2 class="section__title" id="aboutHeading">About Me</h2>
+        <p>
+          I'm an IBMer based in <strong>France</strong> with a passion for exploring the full
+          technology stack — from cloud infrastructure and AI/ML to developer tools and open-source projects.
+        </p>
+        <p>
+          On GitHub you'll find my experiments, hands-on labs, IBM demos, and community contributions.
+          I believe in learning by doing and sharing what I build.
+        </p>
+        <div class="about__stats">
+          <div class="stat-badge">
+            <span class="stat-badge__num">89</span>
+            <span class="stat-badge__label">Public repos</span>
+          </div>
+          <div class="stat-badge">
+            <span class="stat-badge__num">101</span>
+            <span class="stat-badge__label">Followers</span>
+          </div>
+          <div class="stat-badge">
+            <span class="stat-badge__num">2015</span>
+            <span class="stat-badge__label">Member since</span>
+          </div>
+        </div>
+        <a href="https://fr.linkedin.com/in/aairom" class="btn btn--primary" style="margin-top:1.5rem;"
+           target="_blank" rel="noopener">LinkedIn Profile</a>
+      </div>
+      <div class="about__image">
+        <img
+          src="https://avatars.githubusercontent.com/u/10561272?v=4"
+          alt="Alain Airom GitHub avatar"
+          class="about__avatar"
+          width="300"
+          height="300"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SKILLS SECTION
+  ================================================================ -->
+  <section class="section skills" id="skills" aria-labelledby="skillsHeading">
+    <div class="container">
+      <h2 class="section__title" id="skillsHeading">Areas of Interest</h2>
+      <p class="section__subtitle">Technologies and topics I explore and share</p>
+
+      <div class="skills__grid">
+        <div class="skill-card">
+          <div class="skill-card__icon" aria-hidden="true">🤖</div>
+          <h3 class="skill-card__title">AI &amp; LLMs</h3>
+          <ul class="skill-card__list">
+            <li>Docling / RAG pipelines</li>
+            <li>GraphRAG / Knowledge Graphs</li>
+            <li>Ollama / llama.cpp</li>
+            <li>watsonx / IBM AI</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-card__icon" aria-hidden="true">☁️</div>
+          <h3 class="skill-card__title">Cloud &amp; IBM</h3>
+          <ul class="skill-card__list">
+            <li>IBM Cloud</li>
+            <li>OpenShift / Kubernetes</li>
+            <li>IBM Power Systems</li>
+            <li>HashiCorp Vault</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-card__icon" aria-hidden="true">🐍</div>
+          <h3 class="skill-card__title">Development</h3>
+          <ul class="skill-card__list">
+            <li>Python / FastAPI</li>
+            <li>JavaScript / Node.js</li>
+            <li>Streamlit / Gradio</li>
+            <li>Docker / Podman</li>
+          </ul>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-card__icon" aria-hidden="true">🛠️</div>
+          <h3 class="skill-card__title">Tools &amp; Ops</h3>
+          <ul class="skill-card__list">
+            <li>Git / GitHub</li>
+            <li>Ansible / Automation</li>
+            <li>OpenSearch</li>
+            <li>MCP / IBM Bob</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       REPOSITORIES SECTION — loaded live from GitHub API
+  ================================================================ -->
+  <section class="section repos" id="repositories" aria-labelledby="reposHeading">
+    <div class="container">
+      <h2 class="section__title" id="reposHeading">GitHub Repositories</h2>
+      <p class="section__subtitle">
+        <span id="repoCount">Loading…</span> public repositories ·
+        sorted by most recently updated
+      </p>
+
+      <!-- Search + filter bar -->
+      <div class="repos__toolbar">
+        <div class="repos__search-wrap">
+          <input
+            type="search"
+            id="repoSearch"
+            class="repos__search"
+            placeholder="Search repositories…"
+            aria-label="Search repositories"
+          />
+        </div>
+        <div class="repos__filters" role="group" aria-label="Filter by language">
+          <button class="filter-btn filter-btn--active" data-lang="all">All</button>
+          <button class="filter-btn" data-lang="Python">Python</button>
+          <button class="filter-btn" data-lang="JavaScript">JavaScript</button>
+          <button class="filter-btn" data-lang="Shell">Shell</button>
+          <button class="filter-btn" data-lang="Jupyter Notebook">Jupyter</button>
+          <button class="filter-btn" data-lang="other">Other</button>
+        </div>
+      </div>
+
+      <!-- Repo cards grid — populated by JavaScript -->
+      <div class="repos__grid" id="reposGrid" aria-live="polite">
+        <!-- Loading skeleton -->
+        <div class="repo-skeleton"></div>
+        <div class="repo-skeleton"></div>
+        <div class="repo-skeleton"></div>
+        <div class="repo-skeleton"></div>
+        <div class="repo-skeleton"></div>
+        <div class="repo-skeleton"></div>
+      </div>
+
+      <div class="repos__empty" id="reposEmpty" hidden>
+        <p>No repositories match your search.</p>
+      </div>
+
+      <div class="repos__error" id="reposError" hidden>
+        <p>⚠️ Could not load repositories. <a href="https://github.com/aairom?tab=repositories" target="_blank" rel="noopener">View on GitHub →</a></p>
+      </div>
+
+      <div class="repos__footer">
+        <a href="https://github.com/aairom?tab=repositories" class="btn btn--outline"
+           target="_blank" rel="noopener">View all repositories on GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       CONTACT SECTION
+  ================================================================ -->
+  <section class="section contact" id="contact" aria-labelledby="contactHeading">
+    <div class="container contact__inner">
+      <h2 class="section__title" id="contactHeading">Get In Touch</h2>
+      <p class="section__subtitle">Open to collaboration, questions, and interesting conversations.</p>
+
+      <div class="contact__social">
+        <a href="https://github.com/aairom" target="_blank" rel="noopener" class="social-link">
+          <span class="social-link__icon" aria-hidden="true">
+            <!-- GitHub SVG icon -->
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+          </span>
+          GitHub
+        </a>
+        <a href="https://fr.linkedin.com/in/aairom" target="_blank" rel="noopener" class="social-link">
+          <span class="social-link__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </span>
+          LinkedIn
+        </a>
+        <a href="https://github.com/aairom?tab=repositories" target="_blank" rel="noopener" class="social-link">
+          <span class="social-link__icon" aria-hidden="true">📂</span>
+          89 Repos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FOOTER
+  ================================================================ -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Alain Airom (aairom) · IBM France · Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
