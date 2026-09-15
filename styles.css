@@ -294,6 +294,12 @@ ul {
   margin-bottom: var(--space-8);
 }
 
+.hero__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
 .hero__writing {
   display: flex;
   gap: var(--space-4);
