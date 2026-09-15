@@ -43,9 +43,9 @@
 
 <div align="center">
 
-  ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=aairom&show_icons=true&theme=github_dark&hide_border=true&count_private=false)
+  ![GitHub Stats](https://readme-stats-ten-umber.vercel.app/api?username=aairom&show_icons=true&theme=github_dark&hide_border=true&count_private=false)
 
-  ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=aairom&layout=compact&theme=github_dark&hide_border=true&langs_count=8)
+  ![Top Languages](https://readme-stats-ten-umber.vercel.app/api/top-langs/?username=aairom&layout=compact&theme=github_dark&hide_border=true&langs_count=8)
 
   ![GitHub Streak](https://streak-stats.demolab.com?user=aairom&theme=github-dark&hide_border=true)
 

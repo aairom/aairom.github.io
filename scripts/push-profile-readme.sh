@@ -10,7 +10,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 WORKTREE_PATH="/tmp/aairom-profile"
 REMOTE_NAME="profile"
-REMOTE_URL="git@github.com:aairom/aairom-profile.git"
+REMOTE_URL="git@github.com:aairom/aairom.git"
 SOURCE_README="${REPO_ROOT}/profile-readme/README.md"
 
 echo "==> Using repo root: ${REPO_ROOT}"
@@ -47,7 +47,7 @@ echo "==> [4/5] Pushing to ${REMOTE_URL} ..."
 if ! git remote get-url "${REMOTE_NAME}" &>/dev/null; then
   git remote add "${REMOTE_NAME}" "${REMOTE_URL}"
 fi
-git push "${REMOTE_NAME}" profile-branch:main
+git push --force "${REMOTE_NAME}" profile-branch:main
 
 # ── Step 5: Clean up ─────────────────────────────────────────────────────────
 echo "==> [5/5] Cleaning up worktree ..."
