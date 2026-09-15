@@ -294,6 +294,13 @@ ul {
   margin-bottom: var(--space-8);
 }
 
+.hero__writing {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
 .hero__actions {
   display: flex;
   gap: var(--space-4);
