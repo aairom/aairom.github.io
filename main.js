@@ -88,6 +88,7 @@ const API_BASE    = 'https://api.github.com';
 (function githubRepos() {
   const grid       = document.getElementById('reposGrid');
   const countEl    = document.getElementById('repoCount');
+  const socialCountEl = document.getElementById('socialRepoCount');
   const emptyEl    = document.getElementById('reposEmpty');
   const errorEl    = document.getElementById('reposError');
   const searchEl   = document.getElementById('repoSearch');
@@ -232,8 +233,9 @@ const API_BASE    = 'https://api.github.com';
     try {
       allRepos = await fetchAllRepos();
 
-      // Update subtitle count
+      // Update subtitle count and social link count
       if (countEl) countEl.textContent = allRepos.length;
+      if (socialCountEl) socialCountEl.textContent = `${allRepos.length} Repos`;
 
       // Render
       render();
