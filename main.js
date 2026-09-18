@@ -86,9 +86,10 @@ const API_BASE    = 'https://api.github.com';
    5. GITHUB REPOSITORIES — fetch, render, search, filter
 ---------------------------------------------------------------- */
 (function githubRepos() {
-  const grid       = document.getElementById('reposGrid');
-  const countEl    = document.getElementById('repoCount');
-  const socialCountEl = document.getElementById('socialRepoCount');
+  const grid           = document.getElementById('reposGrid');
+  const countEl        = document.getElementById('repoCount');
+  const socialCountEl  = document.getElementById('socialRepoCount');
+  const aboutRepoCount = document.getElementById('aboutRepoCount');
   const emptyEl    = document.getElementById('reposEmpty');
   const errorEl    = document.getElementById('reposError');
   const searchEl   = document.getElementById('repoSearch');
@@ -233,9 +234,10 @@ const API_BASE    = 'https://api.github.com';
     try {
       allRepos = await fetchAllRepos();
 
-      // Update subtitle count and social link count
-      if (countEl) countEl.textContent = allRepos.length;
-      if (socialCountEl) socialCountEl.textContent = `${allRepos.length} Repos`;
+      // Update all repo count displays (subtitle, contact panel, about panel)
+      if (countEl)        countEl.textContent        = allRepos.length;
+      if (socialCountEl)  socialCountEl.textContent  = `${allRepos.length} Repos`;
+      if (aboutRepoCount) aboutRepoCount.textContent = allRepos.length;
 
       // Render
       render();
