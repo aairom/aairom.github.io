@@ -45,3 +45,5 @@ output/*
 input/*
 !input/.gitkeep
 .bob/
+
+fix-bob-sidebar.sh
