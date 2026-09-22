@@ -272,6 +272,13 @@
         <p>⚠️ Could not load repositories. <a href="https://github.com/aairom?tab=repositories" target="_blank" rel="noopener">View on GitHub →</a></p>
       </div>
 
+      <!-- Pagination controls — managed by main.js -->
+      <nav class="repos__pagination" id="reposPagination" aria-label="Repository pages" hidden>
+        <button class="pagination-btn" id="reposPrev" aria-label="Previous page" disabled>&#8592;</button>
+        <span class="pagination-info" id="reposPageInfo" aria-live="polite"></span>
+        <button class="pagination-btn" id="reposNext" aria-label="Next page">&#8594;</button>
+      </nav>
+
       <div class="repos__footer">
         <a href="https://github.com/aairom?tab=repositories" class="btn btn--outline"
            target="_blank" rel="noopener">View all repositories on GitHub →</a>

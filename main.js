@@ -90,10 +90,16 @@ const API_BASE    = 'https://api.github.com';
   const countEl        = document.getElementById('repoCount');
   const socialCountEl  = document.getElementById('socialRepoCount');
   const aboutRepoCount = document.getElementById('aboutRepoCount');
-  const emptyEl    = document.getElementById('reposEmpty');
-  const errorEl    = document.getElementById('reposError');
-  const searchEl   = document.getElementById('repoSearch');
-  const filterBtns = document.querySelectorAll('.filter-btn');
+  const emptyEl        = document.getElementById('reposEmpty');
+  const errorEl        = document.getElementById('reposError');
+  const searchEl       = document.getElementById('repoSearch');
+  const filterBtns     = document.querySelectorAll('.filter-btn');
+  const paginationEl   = document.getElementById('reposPagination');
+  const prevBtn        = document.getElementById('reposPrev');
+  const nextBtn        = document.getElementById('reposNext');
+  const pageInfoEl     = document.getElementById('reposPageInfo');
+
+  const PAGE_SIZE = 5;
 
   if (!grid) return;
 
@@ -175,11 +181,12 @@ const API_BASE    = 'https://api.github.com';
   }
 
   /* State */
-  let allRepos   = [];
+  let allRepos     = [];
   let activeFilter = 'all';
   let searchQuery  = '';
+  let currentPage  = 1;
 
-  /** Filter + render visible repos */
+  /** Filter + render visible repos with pagination */
   function render() {
     const query = searchQuery.toLowerCase();
 
@@ -200,9 +207,30 @@ const API_BASE    = 'https://api.github.com';
 
     if (visible.length === 0) {
       emptyEl.hidden = false;
+      if (paginationEl) paginationEl.hidden = true;
     } else {
       emptyEl.hidden = true;
-      visible.forEach(repo => grid.appendChild(buildCard(repo)));
+
+      const totalPages = Math.ceil(visible.length / PAGE_SIZE);
+      // Clamp currentPage in case filter/search reduced the total
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const pageRepos = visible.slice(start, start + PAGE_SIZE);
+
+      pageRepos.forEach(repo => grid.appendChild(buildCard(repo)));
+
+      // Update pagination controls
+      if (paginationEl) {
+        const showPagination = totalPages > 1;
+        paginationEl.hidden = !showPagination;
+
+        if (showPagination) {
+          if (pageInfoEl) pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
+          if (prevBtn) prevBtn.disabled = currentPage === 1;
+          if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+        }
+      }
     }
   }
 
@@ -256,6 +284,7 @@ const API_BASE    = 'https://api.github.com';
       clearTimeout(searchTimer);
       searchTimer = setTimeout(() => {
         searchQuery = searchEl.value.trim();
+        currentPage = 1;
         render();
       }, 220);
     });
@@ -267,9 +296,27 @@ const API_BASE    = 'https://api.github.com';
       filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
       btn.classList.add('filter-btn--active');
       activeFilter = btn.dataset.lang;
+      currentPage = 1;
       render();
     });
   });
+
+  /* Pagination buttons */
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        render();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      currentPage++;
+      render();
+    });
+  }
 
   /* Kick off */
   init();
