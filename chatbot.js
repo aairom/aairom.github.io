@@ -31,7 +31,7 @@ const CHATBOT_CONFIG = {
 const KNOWLEDGE_BASE = [
   {
     id: 'greeting',
-    patterns: ['hello', 'hi', 'hey', 'bonjour', 'salut', 'good morning', 'good afternoon', 'howdy', 'sup'],
+    patterns: ['hello', 'hey', 'bonjour', 'salut', 'good morning', 'good afternoon', 'howdy', 'sup', '^hi$', 'hi there', 'hi!'],
     response: `👋 Hello! I'm Alain's assistant bot.\nAsk me about his **background**, **skills**, **projects**, **blog**, or **how to reach him**.\nType **help** to see all topics!`
   },
   {
@@ -46,7 +46,7 @@ const KNOWLEDGE_BASE = [
   },
   {
     id: 'skills',
-    patterns: ['skill', 'technology', 'tech stack', 'expertise', 'speciality', 'specialization', 'what do you know', 'tools', 'stack', 'languages', 'frameworks'],
+    patterns: ['skills', 'skill', 'technology', 'tech stack', 'expertise', 'speciality', 'specialization', 'what do you know', 'tools', 'stack', 'languages', 'frameworks'],
     response: `🛠️ **Alain's tech areas:**\n\n🤖 **AI & LLMs** — Docling, RAG, GraphRAG, Ollama, llama.cpp, watsonx\n☁️ **Cloud & IBM** — IBM Cloud, OpenShift, Kubernetes, Power Systems, HashiCorp Vault\n🐍 **Dev** — Python, FastAPI, JavaScript, Node.js, Streamlit, Gradio, Docker, Podman\n🔧 **Ops** — Git, GitHub, Ansible, OpenSearch, MCP, IBM Bob`
   },
   {
@@ -61,7 +61,7 @@ const KNOWLEDGE_BASE = [
   },
   {
     id: 'projects',
-    patterns: ['project', 'repo', 'repository', 'repositories', 'portfolio', 'built', 'demo', 'lab', 'show me', 'github'],
+    patterns: ['project', 'projects', 'repo', 'repos', 'repository', 'repositories', 'portfolio', 'built', 'demo', 'lab', 'show me', 'github'],
     response: `📦 Alain has **100+ public repositories** on GitHub covering AI/ML experiments, IBM Cloud labs, automation scripts, and community contributions.\n\n👉 [Browse all repos on GitHub](https://github.com/aairom?tab=repositories)\n\nOr scroll down to the **Repositories** section of this page for a live, searchable view!`
   },
   {
@@ -81,7 +81,7 @@ const KNOWLEDGE_BASE = [
   },
   {
     id: 'certifications',
-    patterns: ['certif', 'badge', 'credly', 'credential', 'award', 'certified'],
+    patterns: ['certif', 'certification', 'certifications', 'badge', 'credly', 'credential', 'award', 'certified'],
     response: `🏅 Alain holds various professional certifications visible on Credly:\n👉 [View all badges](https://www.credly.com/users/alain-airom/badges/credly)`
   },
   {
@@ -154,7 +154,16 @@ let _fallbackIndex = 0;
 function _chatFindResponse(userMessage) {
   const msg = userMessage.toLowerCase().trim();
   for (const entry of KNOWLEDGE_BASE) {
-    if (entry.patterns.some(p => msg.includes(p))) {
+    if (entry.patterns.some(p => {
+      // Patterns starting with ^ are raw regex (e.g. '^hi$' for exact-match words)
+      if (p.startsWith('^')) return new RegExp(p, 'i').test(msg);
+      // Multi-word patterns: plain substring match (e.g. "tech stack", "get in touch")
+      if (p.includes(' ')) return msg.includes(p);
+      // Single-word patterns: \b on both sides = whole-word match.
+      // Prevents "hi" matching "his"/"this". Patterns that need prefix-match
+      // (e.g. "skills" covers "skill" too) are listed explicitly with their full form.
+      return new RegExp('\\b' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i').test(msg);
+    })) {
       return entry.response;
     }
   }
