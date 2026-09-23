@@ -1,0 +1,122 @@
+# .bobignore — Controls which files Bob can access or modify
+# Syntax is identical to .gitignore
+# Reference: https://internal.bob.ibm.com/docs/ide/security/bob-security-guidance
+#            https://internal.bob.ibm.com/docs/ide/configuration/bobignore
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECRETS & CREDENTIALS
+# Never expose tokens, API keys, passwords, or private keys to Bob
+# ─────────────────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*password*
+*credential*
+*apikey*
+*api_key*
+*secret*
+*token*
+config/credentials.json
+credentials.json
+
+# ─────────────────────────────────────────────────────────────────────────────
+# GIT INTERNALS
+# Bob should not read or modify Git history or internal state
+# ─────────────────────────────────────────────────────────────────────────────
+.git/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BOB INTERNAL CONFIGURATION
+# Bob cannot and should not modify its own access rules or MCP secrets
+# ─────────────────────────────────────────────────────────────────────────────
+.bobignore
+.bob/mcp.json
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DEPENDENCY FOLDERS
+# Large auto-generated trees — not useful for Bob to read
+# ─────────────────────────────────────────────────────────────────────────────
+node_modules/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BUILD ARTIFACTS
+# Generated output — Bob should work on source, not compiled output
+# ─────────────────────────────────────────────────────────────────────────────
+dist/
+build/
+.cache/
+.parcel-cache/
+__pycache__/
+*.pyc
+*.pyo
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LARGE BINARY & MEDIA ASSETS
+# Bob cannot meaningfully process binary files and should not attempt to
+# ─────────────────────────────────────────────────────────────────────────────
+*.zip
+*.tar.gz
+*.tgz
+*.gz
+*.onnx
+*.onnx.data
+*.so
+*.dylib
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.ico
+*.pdf
+*.docx
+*.xlsx
+*.pptx
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LOGS
+# Runtime logs may contain sensitive data (tokens, IPs, user data)
+# ─────────────────────────────────────────────────────────────────────────────
+*.log
+logs/
+*.log.*
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OS & EDITOR NOISE
+# ─────────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PLAYWRIGHT / BROWSER AUTOMATION
+# May contain session tokens or recorded credentials
+# ─────────────────────────────────────────────────────────────────────────────
+.playwright-mcp/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PRIVATE / LOCAL FOLDERS (project convention: names starting with _)
+# ─────────────────────────────────────────────────────────────────────────────
+_*/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# INPUT / OUTPUT CONTENT
+# Raw input documents and generated output files — can contain any data type
+# ─────────────────────────────────────────────────────────────────────────────
+input/*
+output/*
