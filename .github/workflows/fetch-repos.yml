@@ -1,0 +1,84 @@
+name: Fetch GitHub Repos
+
+# Runs on every push to main and daily at 02:00 UTC
+# Fetches all public repos for aairom via authenticated API and writes repos.json
+# The token never touches source code — it lives only in GitHub Actions secrets.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'   # daily at 02:00 UTC
+  workflow_dispatch:       # allow manual trigger from Actions tab
+
+jobs:
+  fetch-repos:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # needed to commit repos.json back to the repo
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch all public repos via authenticated GitHub API
+        env:
+          GH_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
+        run: |
+          python3 - <<'PYEOF'
+          import urllib.request, urllib.error, json, os, sys
+
+          user    = "aairom"
+          token   = os.environ.get("GH_API_TOKEN", "")
+          headers = {"Accept": "application/vnd.github.v3+json"}
+          if token:
+              headers["Authorization"] = f"Bearer {token}"
+
+          repos   = []
+          page    = 1
+
+          while True:
+              url = f"https://api.github.com/users/{user}/repos?sort=updated&per_page=100&page={page}"
+              req = urllib.request.Request(url, headers=headers)
+              try:
+                  with urllib.request.urlopen(req) as resp:
+                      batch = json.loads(resp.read())
+              except urllib.error.HTTPError as e:
+                  print(f"API error {e.code}: {e.reason}", file=sys.stderr)
+                  sys.exit(1)
+
+              # Keep only the fields the frontend actually uses
+              for r in batch:
+                  repos.append({
+                      "name":             r["name"],
+                      "html_url":         r["html_url"],
+                      "description":      r["description"],
+                      "language":         r["language"],
+                      "stargazers_count": r["stargazers_count"],
+                      "forks_count":      r["forks_count"],
+                      "fork":             r["fork"],
+                      "updated_at":       r["updated_at"],
+                  })
+
+              if len(batch) < 100:
+                  break
+              page += 1
+
+          with open("repos.json", "w") as f:
+              json.dump(repos, f, separators=(",", ":"))
+
+          print(f"Wrote {len(repos)} repos to repos.json")
+          PYEOF
+
+      - name: Commit repos.json if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add repos.json
+          if git diff --cached --quiet; then
+            echo "repos.json unchanged — nothing to commit"
+          else
+            git commit -m "chore: update repos.json [skip ci]"
+            git push
+          fi
