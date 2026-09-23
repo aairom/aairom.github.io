@@ -113,6 +113,69 @@ Visit: **`https://yourusername.github.io`**
 
 ---
 
+## 🔑 Creating a GitHub Personal Access Token
+
+### What is a Personal Access Token (PAT)?
+
+A **Personal Access Token (PAT)** serves as an alternative to using your GitHub account password for authenticating Git operations over HTTPS (such as `git push` or `git clone`), CLI tools (e.g., `gh`), or GitHub REST/GraphQL API scripts. Since GitHub deprecated account passwords for Git authentication, a PAT is required to authenticate programmatic and command-line access securely.
+
+### Step-by-Step Instructions to Generate a PAT
+
+1. Sign in to your account on [GitHub](https://github.com).
+2. Navigate directly to the token management page: **[https://github.com/settings/tokens](https://github.com/settings/tokens)**
+   *(Alternatively, click your profile icon in the top right → **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**).*
+3. Click the **Generate new token** drop-down and choose **Generate new token (classic)** (or create a Fine-grained token depending on your workflow requirements).
+4. Enter a descriptive name in the **Note** field (e.g., `github-pages-deployment` or `cli-access`).
+5. Choose an **Expiration** period (e.g., `30 days`, `90 days`, or custom duration according to your security policy).
+
+### Selecting Required Scopes and Permissions
+
+Select the scopes based on what tasks you need to perform:
+
+- **For Git command-line access & pushing to repositories:**
+  - `repo` (Full control of private repositories, or public repository access)
+  - `workflow` (if updating GitHub Actions workflows)
+- **For GitHub Pages administration / status:**
+  - `repo` (includes `repo:status`, `public_repo`)
+- **For reading user profile data:**
+  - `read:user`, `user:email`
+
+> 💡 **Principle of Least Privilege:** Only select the permissions strictly necessary for your use case to minimize security risk.
+
+### Storing and Securing Your Token
+
+- Copy the token immediately using the clipboard button.
+- Store your token securely in a trusted password manager (e.g., 1Password, Bitwarden, KeePass) or secure secrets manager.
+- If using Git CLI over HTTPS, cache credentials with Git Credential Manager or your OS keychain:
+  ```bash
+  git config --global credential.helper osxkeychain  # macOS
+  # or
+  git config --global credential.helper store        # Linux/generic (stores in ~/.git-credentials)
+  ```
+- **Never commit tokens or secrets to version control, `.env` files, or public repositories.**
+
+> ⚠️ **Warning:** GitHub will only display your Personal Access Token **once** upon creation. If you navigate away or refresh the page without copying it, you will not be able to retrieve the value and must regenerate a new token.
+
+### Add Your Token as a GitHub Actions Secret
+
+The repository workflow (`Fetch GitHub Repos`) is deployed to automatically keep repository listings up-to-date, but it needs the token to authenticate with the GitHub API. Do this one-time configuration:
+
+1. Go to **[https://github.com/aairom/aairom.github.io/settings/secrets/actions](https://github.com/aairom/aairom.github.io/settings/secrets/actions)**
+2. Click **New repository secret**.
+3. Set **Name**: `GH_API_TOKEN`
+4. Set **Value**: paste your generated token (e.g. `ghp_...`)
+5. Click **Add secret**.
+
+#### Trigger the Workflow Manually:
+
+1. Go to the **Actions** tab in the repository.
+2. Select **Fetch GitHub Repos** from the left workflow list.
+3. Click **Run workflow** → select branch `main` → click **Run workflow**.
+
+Within ~30 seconds `repos.json` will be committed and your site will load all repositories with no rate-limit issues.
+
+---
+
 ## 🔄 Update Workflow
 
 ```bash

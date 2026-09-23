@@ -227,7 +227,72 @@ GitHub Pages takes **30–120 seconds** to build and deploy. Then:
 
 ---
 
-## Phase 6 — Making Future Updates
+## Phase 6 — Creating a GitHub Personal Access Token
+
+### What is a Personal Access Token (PAT)?
+
+A **Personal Access Token (PAT)** functions as a secure credential string that substitutes for your GitHub password during HTTPS Git operations (`git clone`, `git push`), GitHub CLI authentication, or automated scripts interacting with GitHub APIs. Personal access tokens provide granular scope controls and can be revoked individually at any time.
+
+### Step-by-Step Instructions to Generate a PAT
+
+1. Sign in to your account at [github.com](https://github.com).
+2. Go directly to **[https://github.com/settings/tokens](https://github.com/settings/tokens)**
+   *(Or navigate from GitHub: click your profile photo in the top right → **Settings** → scroll down to **Developer settings** in the left sidebar → **Personal access tokens** → **Tokens (classic)**).*
+3. Click **Generate new token** → select **Generate new token (classic)** (or Fine-grained token if specified by your organization).
+4. Give your token an identifiable **Note** indicating its purpose (e.g., `github-pages-token` or `laptop-git-auth`).
+5. Set an **Expiration** date (recommended: `30 days` or `90 days`).
+
+### Selecting Appropriate Scopes and Permissions
+
+Check the boxes corresponding to the actions you need to perform:
+
+- **For repository management & git push operations:**
+  - `repo` — Grants full control of private and public repositories.
+  - `workflow` — Required if your commits modify `.github/workflows` files.
+- **For GitHub Pages interaction:**
+  - `repo` (includes `repo:status` and `public_repo`).
+- **For reading user account details:**
+  - `read:user`, `user:email`.
+
+> 💡 **Tip:** Always follow the principle of least privilege: select only the scopes your current tasks require.
+
+### Securely Storing Your Generated Token
+
+- Copy the token immediately using the copy button next to the token string.
+- Save the token in a secure password manager (e.g. 1Password, Bitwarden, KeePass) or secure environment variable store.
+- Configure Git credential helpers so you do not need to retype or hardcode it:
+  ```bash
+  # macOS
+  git config --global credential.helper osxkeychain
+
+  # Linux / Generic
+  git config --global credential.helper store
+  ```
+- **Never commit tokens into source code, configuration files, or public git repositories.**
+
+> ⚠️ **Warning:** GitHub will display your new Personal Access Token **only once**. Once you leave or refresh the page, you will not be able to view it again. Make sure to copy and store it immediately in a safe location.
+
+### Step 6.1 — Add Your Token as a GitHub Actions Secret
+
+The workflow is deployed but needs the token to authenticate. Do this once:
+
+1. Go to **[https://github.com/aairom/aairom.github.io/settings/secrets/actions](https://github.com/aairom/aairom.github.io/settings/secrets/actions)**
+2. Click **"New repository secret"**
+3. **Name**: `GH_API_TOKEN`
+4. **Value**: paste your generated token (e.g., `ghp_...`)
+5. Click **"Add secret"**
+
+### Step 6.2 — Trigger the Workflow Manually
+
+1. Go to the **Actions** tab in your repository
+2. Click **Fetch GitHub Repos** in the left sidebar
+3. Click **Run workflow** → select branch `main` → click **Run workflow**
+
+Within ~30 seconds `repos.json` will be committed and your site will load all repositories with no rate-limit issues.
+
+---
+
+## Phase 7 — Making Future Updates
 
 Every time you make a change, use this 3-command workflow:
 
@@ -246,13 +311,13 @@ Or use:
 
 ---
 
-## Phase 7 — Custom Domain (Optional)
+## Phase 8 — Custom Domain (Optional)
 
-### Step 7.1 — Buy a domain
+### Step 8.1 — Buy a domain
 
 Purchase from any registrar: [Namecheap](https://namecheap.com), [Cloudflare Registrar](https://cloudflare.com), [Google Domains](https://domains.google.com).
 
-### Step 7.2 — Create a CNAME file
+### Step 8.2 — Create a CNAME file
 
 In your repository root, create a file named `CNAME` (no extension) containing your domain:
 
@@ -267,7 +332,7 @@ git commit -m "Add custom domain"
 git push origin main
 ```
 
-### Step 7.3 — Configure your DNS
+### Step 8.3 — Configure your DNS
 
 At your domain registrar's DNS settings, add:
 
@@ -279,7 +344,7 @@ At your domain registrar's DNS settings, add:
 | `A` | `@` | `185.199.111.153` |
 | `CNAME` | `www` | `yourusername.github.io` |
 
-### Step 7.4 — Enable in GitHub Settings
+### Step 8.4 — Enable in GitHub Settings
 
 1. **Settings → Pages → Custom domain** → enter `www.yourdomain.com` → Save
 2. Check **"Enforce HTTPS"** (free SSL certificate via Let's Encrypt)
