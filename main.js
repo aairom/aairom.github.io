@@ -246,7 +246,15 @@ const API_BASE    = 'https://api.github.com';
       const res = await fetch('repos.json', { cache: 'no-cache' });
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) return data;
+        if (Array.isArray(data) && data.length > 0) {
+          // Check if repos.json is stale (older than 6 hours)
+          const latestUpdate = getLatestUpdate(data);
+          const sixHoursAgo = Date.now() - 6 * 60 * 60 * 1000;
+          if (latestUpdate > sixHoursAgo) {
+            return data;
+          }
+          console.log('repos.json is stale (last update:', new Date(latestUpdate).toISOString(), '), falling back to live API');
+        }
       }
     } catch (_) {
       // repos.json absent or malformed — fall through to live API
@@ -272,6 +280,18 @@ const API_BASE    = 'https://api.github.com';
     }
 
     return repos;
+  }
+
+  /** Get the most recent updated_at timestamp from repo data */
+  function getLatestUpdate(repos) {
+    let latest = 0;
+    for (const repo of repos) {
+      if (repo.updated_at) {
+        const ts = new Date(repo.updated_at).getTime();
+        if (ts > latest) latest = ts;
+      }
+    }
+    return latest;
   }
 
   /** Init — fetch repos and wire up controls */
