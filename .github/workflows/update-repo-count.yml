@@ -1,0 +1,42 @@
+name: Update Public Repo Count Badge
+
+# Runs daily at midnight UTC and on every push to main.
+# Fetches the live public repository count for aairom via the GitHub REST API
+# and updates the shields.io badge in profile-readme/README.md.
+# Only commits if the count has actually changed.
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # daily at 00:00 UTC
+  push:
+    branches: [main]
+  workflow_dispatch:       # allow manual trigger from the Actions tab
+
+jobs:
+  update-badge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # needed to commit the updated README back
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run update script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/update_repo_count.py
+
+      - name: Commit updated README if badge changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add profile-readme/README.md
+          if git diff --cached --quiet; then
+            echo "Badge count unchanged — nothing to commit."
+          else
+            git commit -m "chore: update public repo count badge [skip ci]"
+            git push
+          fi
