@@ -80,7 +80,7 @@
   </a>
   <img src="https://img.shields.io/badge/Member%20since-2015-58a6ff?style=flat-square" alt="Member since 2015" />
   <a href="https://github.com/aairom?tab=repositories" target="_blank" rel="noopener">
-    <img src="https://img.shields.io/badge/Public%20repos-89-58a6ff?style=flat-square&logo=github" alt="Public repos" />
+    <img src="https://img.shields.io/badge/Public%20repos-97-58a6ff?style=flat-square&logo=github" alt="Public repos" />
   </a>
 
 </div>
