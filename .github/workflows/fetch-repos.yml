@@ -9,6 +9,9 @@ on:
   schedule:
     - cron: '0 2 * * *'   # daily at 02:00 UTC
   workflow_dispatch:       # allow manual trigger from Actions tab
+  workflow_run:
+    workflows: ["Update Public Repo Count Badge"]
+    types: [completed]
 
 jobs:
   fetch-repos:
@@ -65,8 +68,13 @@ jobs:
                   break
               page += 1
 
+          import datetime
+          output = {
+              "generated_at": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "repos": repos,
+          }
           with open("repos.json", "w") as f:
-              json.dump(repos, f, separators=(",", ":"))
+              json.dump(output, f, separators=(",", ":"))
 
           print(f"Wrote {len(repos)} repos to repos.json")
           PYEOF

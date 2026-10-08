@@ -246,14 +246,21 @@ const API_BASE    = 'https://api.github.com';
       const res = await fetch('repos.json', { cache: 'no-cache' });
       if (res.ok) {
         const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          // Check if repos.json is stale (older than 6 hours)
-          const latestUpdate = getLatestUpdate(data);
+
+        // Support both old format (plain array) and new format ({ generated_at, repos })
+        const repos       = Array.isArray(data) ? data : (data.repos || []);
+        const generatedAt = Array.isArray(data) ? 0    : new Date(data.generated_at || 0).getTime();
+
+        if (repos.length > 0) {
           const sixHoursAgo = Date.now() - 6 * 60 * 60 * 1000;
-          if (latestUpdate > sixHoursAgo) {
-            return data;
+          if (generatedAt > sixHoursAgo) {
+            return repos;
           }
-          console.log('repos.json is stale (last update:', new Date(latestUpdate).toISOString(), '), falling back to live API');
+          console.log(
+            'repos.json is stale (generated_at:',
+            generatedAt ? new Date(generatedAt).toISOString() : 'unknown',
+            '), falling back to live API'
+          );
         }
       }
     } catch (_) {
@@ -282,18 +289,6 @@ const API_BASE    = 'https://api.github.com';
     return repos;
   }
 
-  /** Get the most recent updated_at timestamp from repo data */
-  function getLatestUpdate(repos) {
-    let latest = 0;
-    for (const repo of repos) {
-      if (repo.updated_at) {
-        const ts = new Date(repo.updated_at).getTime();
-        if (ts > latest) latest = ts;
-      }
-    }
-    return latest;
-  }
-
   /** Init — fetch repos and wire up controls */
   async function init() {
     try {
@@ -303,6 +298,20 @@ const API_BASE    = 'https://api.github.com';
       if (countEl)        countEl.textContent        = allRepos.length;
       if (socialCountEl)  socialCountEl.textContent  = `${allRepos.length} Repos`;
       if (aboutRepoCount) aboutRepoCount.textContent = allRepos.length;
+
+      // Fetch live followers count to replace the hardcoded value in HTML
+      const followersEl = document.querySelector('.stat-badge__num[data-stat="followers"]');
+      if (followersEl) {
+        try {
+          const uRes = await fetch(`${API_BASE}/users/${GITHUB_USER}`, {
+            headers: { 'Accept': 'application/vnd.github.v3+json' }
+          });
+          if (uRes.ok) {
+            const uData = await uRes.json();
+            followersEl.textContent = uData.followers ?? followersEl.textContent;
+          }
+        } catch (_) { /* keep the hardcoded fallback */ }
+      }
 
       // Render
       render();
