@@ -367,3 +367,19 @@ const API_BASE    = 'https://api.github.com';
   /* Kick off */
   init();
 })();
+
+/* ----------------------------------------------------------------
+   Misc dialog (About Me)
+---------------------------------------------------------------- */
+(function () {
+  'use strict';
+  const btn = document.getElementById('miscBtn');
+  const dlg = document.getElementById('miscDialog');
+  const closeBtn = document.getElementById('miscClose');
+  if (!btn || !dlg || typeof dlg.showModal !== 'function') return;
+
+  btn.addEventListener('click', () => dlg.showModal());
+  closeBtn.addEventListener('click', () => dlg.close());
+  /* Close when clicking the backdrop */
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+})();

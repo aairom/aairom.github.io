@@ -150,6 +150,12 @@
            target="_blank"
            rel="noopener noreferrer"
            aria-label="View Alain Airom's badges and certifications on Credly">Skills / Certifications</a>
+        <button type="button"
+                class="btn btn--primary"
+                style="margin-top:1rem;"
+                id="miscBtn"
+                aria-haspopup="dialog"
+                aria-controls="miscDialog">Misc</button>
       </div>
       <div class="about__image">
         <img
@@ -327,6 +333,26 @@
       <p>© <span id="year"></span> Alain Airom (aairom) · IBM France · Hosted on GitHub Pages</p>
     </div>
   </footer>
+
+  <!-- ================================================================
+       MISC DIALOG (opened from About Me > Misc)
+  ================================================================ -->
+  <dialog class="misc-dialog" id="miscDialog" aria-labelledby="miscTitle">
+    <div class="misc-dialog__header">
+      <h2 class="misc-dialog__title" id="miscTitle">Misc</h2>
+      <button type="button" class="misc-dialog__close" id="miscClose" aria-label="Close Misc panel">&times;</button>
+    </div>
+    <dl class="misc-dialog__fields">
+      <div class="misc-dialog__field">
+        <dt>Hobbies/Sports:</dt>
+        <dd>Alain practices traditional Japanese Jiu-Jitsu and holds the rank of 1st Dan black belt. 🥋</dd>
+      </div>
+      <div class="misc-dialog__field">
+        <dt>Spoken Languages:</dt>
+        <dd>French / English and Persian (Farsi) : native language</dd>
+      </div>
+    </dl>
+  </dialog>
 
   <script src="main.js"></script>
   <!-- Chatbot FAQ assistant — no backend, no API keys required -->

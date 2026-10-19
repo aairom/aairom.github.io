@@ -35,6 +35,18 @@ const KNOWLEDGE_BASE = [
     response: `👋 Hello! I'm Alain's assistant bot.\nAsk me about his **background**, **skills**, **projects**, **blog**, or **how to reach him**.\nType **help** to see all topics!`
   },
   {
+    // Must stay above 'skills' (which matches the bare word "languages" for programming languages)
+    id: 'languages',
+    patterns: ['spoken languages', 'spoken language', 'languages spoken', 'speak', 'speaks', 'spoken', 'native language', 'mother tongue', 'bilingual', 'multilingual', 'french', 'english', 'persian', 'farsi'],
+    response: `🗣️ **Spoken Languages:**\n\nFrench / English and Persian (Farsi) : native language`
+  },
+  {
+    // Kept above 'work'/'blog'/'skills' so phrases like "sports outside of work" or "practice" route here
+    id: 'hobbies',
+    patterns: ['hobbies', 'hobby', 'sports', 'sport', 'martial arts', 'martial art', 'jiu-jitsu', 'jiu jitsu', 'jiujitsu', 'jujitsu', 'ju-jitsu', 'black belt', 'blackbelt', 'belt', '1st dan', 'dan rank', 'free time', 'spare time', 'leisure', 'pastime', 'for fun', 'dojo'],
+    response: `🥋 **Hobbies/Sports:**\n\nAlain practices traditional Japanese Jiu-Jitsu and holds the rank of 1st Dan black belt. 🥋`
+  },
+  {
     id: 'who',
     patterns: ['who are you', 'who is alain', 'about alain', 'tell me about', 'introduce', 'bio', 'background'],
     response: `🧑‍💻 **Alain Airom** (aka *aairom*) is an IBMer based in **France**.\nHe's passionate about the full tech stack — from cloud infrastructure and AI/ML to developer tools and open-source. On GitHub since **2015**, he believes in *learning by doing and sharing what you build*.`
@@ -112,7 +124,7 @@ const KNOWLEDGE_BASE = [
   {
     id: 'help',
     patterns: ['help', 'what can you do', 'what can i ask', 'commands', 'options', 'menu', 'topics', '?'],
-    response: `💡 **Things you can ask me:**\n\n👤 Who is Alain / About him\n🛠️ Skills / Tech stack\n📦 Projects / Repositories\n✍️ Blog / Articles\n📬 Contact / LinkedIn\n🏢 Work / IBM\n🏅 Certifications\n📍 Location\n🌍 Open-source contributions\n🤖 AI & LLMs\n☁️ Cloud & Kubernetes\n\nJust type naturally — I'll do my best!`
+    response: `💡 **Things you can ask me:**\n\n👤 Who is Alain / About him\n🛠️ Skills / Tech stack\n📦 Projects / Repositories\n✍️ Blog / Articles\n📬 Contact / LinkedIn\n🏢 Work / IBM\n🏅 Certifications\n🗣️ Languages\n🥋 Hobbies / Sports\n📍 Location\n🌍 Open-source contributions\n🤖 AI & LLMs\n☁️ Cloud & Kubernetes\n\nJust type naturally — I'll do my best!`
   },
   {
     id: 'thanks',
@@ -143,7 +155,9 @@ const QUICK_REPLIES = [
   { label: '🛠️ Skills',   message: 'What are his skills?' },
   { label: '📦 Projects',  message: 'Show me his projects' },
   { label: '✍️ Blog',     message: 'Where does he write?' },
-  { label: '📬 Contact',   message: 'How to contact him?' }
+  { label: '📬 Contact',   message: 'How to contact him?' },
+  { label: '🗣️ Languages', message: 'Which languages does he speak?' },
+  { label: '🥋 Hobbies/Sports', message: 'What are his hobbies and sports?' }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════

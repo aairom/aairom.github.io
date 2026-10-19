@@ -135,6 +135,8 @@ ul {
   display: inline-block;
   padding: 0.625rem 1.5rem;
   border-radius: var(--radius-sm);
+  font-family: inherit;
+  line-height: inherit;
   font-weight: 600;
   font-size: var(--text-base);
   cursor: pointer;
@@ -1189,4 +1191,73 @@ ul {
   color: var(--clr-text-muted);
   min-width: 7rem;
   text-align: center;
+}
+
+/* ----------------------------------------------------------------
+   MISC DIALOG (About Me > Misc)
+---------------------------------------------------------------- */
+.misc-dialog {
+  margin: auto;
+  width: min(92vw, 520px);
+  background: var(--clr-bg-alt);
+  color: var(--clr-text);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius);
+  padding: var(--space-8);
+}
+
+.misc-dialog::backdrop {
+  background: rgba(1, 4, 9, 0.7);
+}
+
+.misc-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.misc-dialog__title {
+  font-size: var(--text-2xl);
+  color: var(--clr-text);
+}
+
+.misc-dialog__close {
+  background: transparent;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  color: var(--clr-text-muted);
+  font-size: var(--text-2xl);
+  line-height: 1;
+  width: 2.25rem;
+  height: 2.25rem;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.misc-dialog__close:hover,
+.misc-dialog__close:focus-visible {
+  color: var(--clr-accent);
+  border-color: var(--clr-accent);
+}
+
+.misc-dialog__field + .misc-dialog__field {
+  margin-top: var(--space-6);
+}
+
+.misc-dialog__field dt {
+  font-weight: 600;
+  color: var(--clr-accent);
+  margin-bottom: var(--space-2);
+}
+
+.misc-dialog__field dd {
+  color: var(--clr-text);
+}
+
+.misc-dialog__empty {
+  min-height: 3rem;
+  border-bottom: 1px dashed var(--clr-border);
 }
