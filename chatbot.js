@@ -37,8 +37,8 @@ const KNOWLEDGE_BASE = [
   {
     // Must stay above 'skills' (which matches the bare word "languages" for programming languages)
     id: 'languages',
-    patterns: ['spoken languages', 'spoken language', 'languages spoken', 'speak', 'speaks', 'spoken', 'native language', 'mother tongue', 'bilingual', 'multilingual', 'french', 'english', 'persian', 'farsi'],
-    response: `🗣️ **Spoken Languages:**\n\nFrench / English and Persian (Farsi) : native language`
+    patterns: ['spoken languages', 'spoken language', 'languages spoken', 'speak', 'speaks', 'spoken', 'monther tongue', 'mother tongue', 'bilingual', 'multilingual', 'french', 'english', 'persian', 'farsi'],
+    response: `🗣️ **Spoken Languages:**\n\nFrench / English and Persian (Farsi) : monther tongue`
   },
   {
     // Kept above 'work'/'blog'/'skills' so phrases like "sports outside of work" or "practice" route here
