@@ -252,7 +252,9 @@ function _chatRenderMarkdown(text) {
       width: 34px; height: 34px; border-radius: 50%;
       background: rgba(255,255,255,.22);
       display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+      overflow: hidden; flex-shrink: 0;
     }
+    .aam-chat-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .aam-chat-header-info { flex: 1; min-width: 0; }
     .aam-chat-header-name { font-size: .9rem; font-weight: 700; line-height: 1.2; }
     .aam-chat-header-status { font-size: .7rem; opacity: .85; margin-top: .1rem; }
@@ -368,7 +370,7 @@ function _chatRenderMarkdown(text) {
   win.classList.add('aam-hidden');
   win.innerHTML = `
     <div class="aam-chat-header">
-      <div class="aam-chat-avatar" aria-hidden="true">🤖</div>
+      <div class="aam-chat-avatar" aria-hidden="true"><img src="favicon.png" alt="" width="34" height="34" /></div>
       <div class="aam-chat-header-info">
         <div class="aam-chat-header-name">Alain's Assistant</div>
         <div class="aam-chat-header-status">● Online · Ask me anything</div>
